@@ -48,7 +48,61 @@ class UserController extends Controller
                 ], 'Authenticated');
             }
         } catch (Exception $exception) {
-            return ResponseFormatter::error(['message' => 'Something went wrong', 'error' => $exception], 'Authentication failed', 500);
+            return ResponseFormatter::error(
+                [
+                    'message' =>
+                    'Something went wrong',
+                    'error' => $exception
+                ],
+                'Authentication failed',
+                500
+            );
         }
+    }
+
+    public function register(Request $request)
+    {
+        try {
+            $request->validate([
+                'name' => 'string|required|max:255',
+                'email' => 'string|required|max:255|email|unique:users',
+                'password' => $this->passwordRules()
+            ]);
+
+            User::Create([
+                'name' => $request->name,
+                'email' => $request->email,
+                'address' => $request->address,
+                'phoneNumber' => $request->phoneNumber,
+                'houseNumber' => $request->houseNumber,
+                'city' => $request->city,
+                'password' => Hash::make($request->password)
+            ]);
+
+            $user = User::where('email', $request->email)->first();
+            $tokenResult = $user->createToken('authToken')->plainTextToken;
+
+            return ResponseFormatter::success([
+                'access_token' => $tokenResult,
+                'token_type' => 'Bearer',
+                'user' => $user
+            ], 'Successfully Registered');
+            
+        } catch (Exception $exception) {
+            return ResponseFormatter::error(
+                [
+                    'message' =>
+                    'Something went wrong',
+                    'error' => $exception
+                ],
+                'Authentication failed',
+                500
+            );
+        }
+    }
+
+    public function logout(Request $request){
+         $token=$request->user()->currentAccessToken()->delete();
+         return ResponseFormatter::success($token,"Token Revoked");
     }
 }
