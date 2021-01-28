@@ -18,5 +18,9 @@ use Illuminate\Support\Facades\Route;
 
 Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('logout', [UserController::class, 'logout']);
+    Route::post('user/photo', [UserController::class, 'updatePhoto']);
+    Route::get('user', [UserController::class, 'fetch']);
+    Route::post('user', [UserController::class, 'updateUser']);
 });
+Route::post('register', [UserController::class, 'register']);
 Route::post('login', [UserController::class, 'login']);

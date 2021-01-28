@@ -1,18 +1,18 @@
 <?php
 
-namespace App\Http\Controllers\Api;
-
+namespace App\Http\Controllers\API;
+use App\Actions\Fortify\PasswordValidationRules;
 use App\Helpers\ResponseFormatter;
 use App\Http\Controllers\Controller;
 use App\Models\User;
-use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-
+use Illuminate\Support\Facades\Validator;
+use Exception;
 class UserController extends Controller
 {
-    //
+    use PasswordValidationRules;
 
     public function login(Request $request)
     {
@@ -87,7 +87,6 @@ class UserController extends Controller
                 'token_type' => 'Bearer',
                 'user' => $user
             ], 'Successfully Registered');
-            
         } catch (Exception $exception) {
             return ResponseFormatter::error(
                 [
@@ -95,14 +94,50 @@ class UserController extends Controller
                     'Something went wrong',
                     'error' => $exception
                 ],
-                'Authentication failed',
+                'Registered Failed',
                 500
             );
         }
     }
 
-    public function logout(Request $request){
-         $token=$request->user()->currentAccessToken()->delete();
-         return ResponseFormatter::success($token,"Token Revoked");
+    public function logout(Request $request)
+    {
+        $token = $request->user()->currentAccessToken()->delete();
+        return ResponseFormatter::success($token, "Token Revoked");
     }
+
+    public function updateUser(Request $request)
+    {
+        $data = $request->all();
+
+        $user = Auth::user();
+        $user->update($data);
+        return ResponseFormatter::success($user, 'Profile Updated');
+    }
+
+    public function fetch(Request $request)
+    {
+        return ResponseFormatter::success($request->user, '
+        User data has been retrieved successfully');
+    }
+
+    public function updatePhoto(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'file' => 'required|image|max:2048',
+        ]);
+
+        if ($validator->fails()) {
+            return ResponseFormatter::error(['error'=>$validator->errors()], 'Update Photo Fails', 401);
+        }
+
+        if ($request->file('file')) {
+            $file = $request->file->store('assets/user', 'public');
+            $user = Auth::user();
+            $user->profile_photo_path = $file;
+            $user->update();
+            return ResponseFormatter::success([$file],'File successfully uploaded');
+        }
+    }
+    
 }
