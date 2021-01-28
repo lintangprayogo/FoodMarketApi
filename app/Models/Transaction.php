@@ -7,12 +7,9 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class transaction extends Model
+class Transaction extends Model
 {
     use HasFactory,SoftDeletes;
-
-    use HasFactory, SoftDeletes;
-
     protected $fillable = [
         'user_id', 'food_id', 'total', 'status', 'payment_url'
     ];
