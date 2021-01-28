@@ -109,7 +109,6 @@ class UserController extends Controller
     public function updateUser(Request $request)
     {
         $data = $request->all();
-
         $user = Auth::user();
         $user->update($data);
         return ResponseFormatter::success($user, 'Profile Updated');
@@ -135,7 +134,7 @@ class UserController extends Controller
             $file = $request->file->store('assets/user', 'public');
             $user = Auth::user();
             $user->profile_photo_path = $file;
-            $user->update();
+            $user->save;
             return ResponseFormatter::success([$file],'File successfully uploaded');
         }
     }
