@@ -26,4 +26,8 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('logout', [UserController::class, 'logout']);
 });
 Route::post('register', [UserController::class, 'register']);
+Route::post('callback', [CallbackController::class, 'callback']);
 Route::post('login', [UserController::class, 'login']);
+
+
+

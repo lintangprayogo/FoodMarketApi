@@ -98,7 +98,7 @@ class TransactionController extends Controller
             'enabled_payments' => ['gopay', 'bank_transfer'],
             'vtweb'=>[]
         ];
-
+         
         try {
             $paymentUrl = Snap::createTransaction($midtrans)->redirect_url;
             $transaction->payment_url=$paymentUrl;
