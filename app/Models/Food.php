@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Storage;
 class Food extends Model
 {
     use HasFactory, SoftDeletes;
+    protected $table = 'foods';
 
     protected $fillable = [
         'name', 'description', 'ingredients', 'price', 'rate', 'types', 'picturePath'

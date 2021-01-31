@@ -7,7 +7,7 @@ use App\Models\Team;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Requests\UserRequest;
-
+use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
@@ -35,7 +35,7 @@ class UserController extends Controller
         if ($request->file('picturePath')) {
             $data['picturePath'] = $request->file('picturePath')->store('assets/user', 'public');
         }
-
+        $data['password']=Hash::make($data['password']);
         $user = User::create($data);
         $user->ownedTeams()->save(Team::forceCreate([
             'user_id' => $user->id,
