@@ -11,7 +11,7 @@ Route::get('/', function () {
     return redirect('admin-dashboard');
 });
 
-Route::middleware(['auth:sanctum'])->group(function () {
+Route::middleware(['auth:sanctum','admin'])->group(function () {
     Route::get('/', [DashboardController::class, 'index'])->name('admin-dashboard');
     Route::resource('user', UserController::class);
     Route::resource('food', FoodController::class);
