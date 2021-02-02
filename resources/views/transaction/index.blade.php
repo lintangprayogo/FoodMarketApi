@@ -1,39 +1,40 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('User') }}
+            {{ __('Transaction') }}
         </h2>
     </x-slot>
 
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-          <div class="mb-10">
-              <a href='{{ route('user.create') }}' class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
-                Create New User</a>
-          </div>
+         
           <div class="bg-white">
             <table class="table-auto w-full">
                 <thead>
                     <tr>
                         <th class="border px-6 py-4">ID</th>
-                        <th class="border px-6 py-4">Name</th>
-                        <th class="border px-6 py-4">Email</th>
-                        <th class="border px-6 py-4">Roles</th>
+                        <th class="border px-6 py-4">Food</th>
+                        <th class="border px-6 py-4">User</th>
+                        <th class="border px-6 py-4">Quantity</th>
+                        <th class="border px-6 py-4">Total</th>
+                        <th class="border px-6 py-4">Status</th>
                         <th class="border px-6 py-4">Action</th>
                     </tr>
                 </thead>
                 <tbody>
-                   @forelse ($users as $user)
+                   @forelse ($transactions as $transaction)
                    <tr>
-                   <td class="border px-6 py-4">{{$user->id}}</td>
-                   <td class="border px-6 py-4">{{$user->name}}</td>
-                   <td class="border px-6 py-4">{{$user->email}}</td>
-                   <td class="border px-6 py-4">{{$user->roles}}</td>
+                   <td class="border px-6 py-4">{{$transaction->id}}</td>
+                   <td class="border px-6 py-4">{{$transaction->food->name}}</td>
+                   <td class="border px-6 py-4">{{$transaction->user->name}}</td>
+                   <td class="border px-6 py-4">{{$transaction->quantity}}</td>
+                   <td class="border px-6 py-4">{{$transaction->total}}</td>
+                   <td class="border px-6 py-4">{{$transaction->status}}</td>
                    <td class="border px-6 py-4">
-                    <a href="{{ route('user.edit', $user->id) }}" class="inline-block bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 mx-2 rounded">
-                        Edit
+                    <a href="{{ route('transaction.show', $transaction->id) }}" class="inline-block bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 mx-2 rounded">
+                        View
                     </a>
-                    <form action="{{ route('user.destroy', $user->id) }}" method="POST" class="inline-block">
+                    <form action="{{ route('transaction.destroy', $transaction->id) }}" method="POST" class="inline-block">
                         {!! method_field('delete') . csrf_field() !!}
                         <button type="submit" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 mx-2 rounded inline-block">
                             Delete
@@ -43,7 +44,7 @@
                    </tr>
                    @empty
                        <tr>
-                           <td colspan="5" class="border text-center p-5">
+                           <td colspan="7" class="border text-center p-5">
                                There Is No Item
                            </td>
                        </tr>
@@ -51,7 +52,7 @@
                 </tbody>
             </table>
             <div class="text-center mt-5">
-              {{ $users->links() }}
+              {{ $transactions->links() }}
 
             </div>
         </div>

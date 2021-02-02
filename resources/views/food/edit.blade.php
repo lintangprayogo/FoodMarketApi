@@ -58,7 +58,7 @@
                                 Ingredients
                             </label>
                             <input value="{{ old('ingredients') ?? $food->ingredients }}" name="ingredients" class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-last-name" type="text" placeholder="Food Ingredients">
-                            <p class="text-gray-600 text-xs italic">Dipisahkan dengan koma, contoh: Bawang Merah, Paprika, Bawang Bombay, Timun</p>
+                            <p class="text-gray-600 text-xs italic">Separated by commas, for example: Shallots, Paprika, Onions, Cucumbers</p>
                         </div>
                     </div>
                     <div class="flex flex-wrap -mx-3 mb-6">
@@ -81,7 +81,7 @@
                                 Types
                             </label>
                             <input value="{{ old('types') ?? $food->types }}" name="types" class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-last-name" type="text" placeholder="Food Types">
-                            <p class="text-gray-600 text-xs italic">Dipisahkan dengan koma, contoh: recommended,popular,new_food</p>
+                            <p class="text-gray-600 text-xs italic">Separated by commas, for example: recommended, popular, new_food</p>
                         </div>
                     </div>
                     <div class="flex flex-wrap -mx-3 mb-6">

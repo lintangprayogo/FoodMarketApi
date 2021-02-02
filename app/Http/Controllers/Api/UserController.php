@@ -127,14 +127,14 @@ class UserController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return ResponseFormatter::error(['error'=>$validator->errors()], 'Update Photo Fails', 401);
+            return ResponseFormatter::error(['error'=>$validator->errors()], 'Update Photo Fails', 422);
         }
 
         if ($request->file('file')) {
             $file = $request->file->store('assets/user', 'public');
             $user = Auth::user();
             $user->profile_photo_path = $file;
-            $user->save;
+            $user->update();
             return ResponseFormatter::success([$file],'File successfully uploaded');
         }
     }

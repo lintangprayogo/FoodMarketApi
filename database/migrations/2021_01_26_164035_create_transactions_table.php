@@ -15,14 +15,14 @@ class CreateTransactionsTable extends Migration
     {
         Schema::create('transactions', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('user_id');
-            $table->unsignedBigInteger('food_id');
+            $table->unsignedBigInteger('user_id')->nullable();
+            $table->unsignedBigInteger('food_id')->nullable();
             $table->integer('quantity');
             $table->integer('total');
             $table->string('status');
             $table->string('payment_url');
-            $table->foreign('user_id')->references('id')->on('users');
-            $table->foreign('food_id')->references('id')->on('foods');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('set null');
+            $table->foreign('food_id')->references('id')->on('foods')->onDelete('set null');
             $table->softDeletes();
             $table->timestamps();
         });
