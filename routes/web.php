@@ -4,8 +4,8 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\FoodController;
 use App\Http\Controllers\UserController;
-use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\TransactionController;
+use App\Http\Controllers\DashboardController;
 
 Route::get('/unauthorized', function () {
     return view('unauthorized');
@@ -23,9 +23,6 @@ Route::middleware(['auth:sanctum', 'admin'])->group(function () {
         ->name('transaction.changeStatus');
 });
 
-Route::middleware(['auth:sanctum', 'admin'])->group(function () {
-    Route::get('/', [DashboardController::class, 'user'])->name('user-dashboard');
-});
 
 
 Route::get('midtrans/success', [MidtransController::class, 'success']);
