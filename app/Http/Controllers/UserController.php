@@ -1,12 +1,11 @@
 <?php
 
 namespace App\Http\Controllers;
-
-use Exception;
 use App\Models\Team;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Requests\UserRequest;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
@@ -57,8 +56,18 @@ class UserController extends Controller
         return view('user.edit', ['user' => $user]);
     }
 
-    public function update(Request $request, $id)
+    public function update(Request $request, User $user)
     {
+        $data = $request->all();
+
+        if($request->file('picturePath'))
+        {
+            $data['picturePath'] = $request->file('picturePath')->store('assets/user', 'public');
+        }
+
+        $user->update($data);
+
+        return redirect()->route('user.index');
     }
 
 

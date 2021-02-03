@@ -1,15 +1,17 @@
 <?php
 
 namespace App\Http\Controllers\API;
-use App\Actions\Fortify\PasswordValidationRules;
+use Exception;
+use App\Models\User;
+use App\Models\Team;
+use Illuminate\Http\Request;
 use App\Helpers\ResponseFormatter;
 use App\Http\Controllers\Controller;
-use App\Models\User;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
-use Exception;
+use App\Actions\Fortify\PasswordValidationRules;
+
 class UserController extends Controller
 {
     use PasswordValidationRules;
@@ -80,6 +82,11 @@ class UserController extends Controller
             ]);
 
             $user = User::where('email', $request->email)->first();
+            $user->ownedTeams()->save(Team::forceCreate([
+                'user_id' => $user->id,
+                'name' => $user->name . " Teams",
+                'personal_team' => false
+            ]));
             $tokenResult = $user->createToken('authToken')->plainTextToken;
 
             return ResponseFormatter::success([

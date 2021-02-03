@@ -11,30 +11,31 @@ use Illuminate\Support\Facades\Storage;
 class Food extends Model
 {
     use HasFactory, SoftDeletes;
-    protected $table = 'foods';
 
     protected $fillable = [
-        'name', 'description', 'ingredients', 'price', 'rate', 'types', 'picturePath'
+        'picturePath', 'name', 'description', 'ingredients', 'price', 'rate', 'types'
     ];
-
-    public function getCreatedAtAttribute($value)
-    {
-        return Carbon::parse($value)->timestamp;
-    }
-    public function getUpdatedAtAttribute($value)
-    {
-        return Carbon::parse($value)->timestamp;
-    }
+    protected $table='foods';
 
     public function toArray()
     {
         $toArray = parent::toArray();
-        $toArray['picturePath'] = $this->toArray();
+        $toArray['picturePath'] = $this->picturePath;
         return $toArray;
     }
 
-    public function getpicturePathAttribute()
+    public function getCreatedAtAttribute($created_at)
     {
-        return url('') . Storage::url($this->attributes['picturePath']);
+        return Carbon::parse($created_at)
+            ->getPreciseTimestamp(3);
+    }
+    public function getUpdatedAtAttribute($updated_at)
+    {
+        return Carbon::parse($updated_at)
+            ->getPreciseTimestamp(3);
+    }
+    public function getPicturePathAttribute()
+    {
+        return config('app.url') . Storage::url($this->attributes['picturePath']);
     }
 }

@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers\API;
 
-use App\Helpers\ResponseFormatter;
-use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
 use App\Models\Food;
+use Illuminate\Http\Request;
+use App\Helpers\ResponseFormatter;
+use Illuminate\Support\Facades\DB;
+use App\Http\Controllers\Controller;
 
 class FoodController extends Controller
 {
@@ -56,8 +57,10 @@ class FoodController extends Controller
         if ($rate_to)
             $food->where('rate', '<=', $rate_to);
 
+
+
         return ResponseFormatter::success(
-            $food->paginate($limit),
+            $food->paginate(10),
             'Food Data List Successfully Retrived'
         );
     }

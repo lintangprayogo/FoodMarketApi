@@ -25,8 +25,16 @@
                    @forelse ($transactions as $transaction)
                    <tr>
                    <td class="border px-6 py-4">{{$transaction->id}}</td>
-                   <td class="border px-6 py-4">{{$transaction->food->name}}</td>
-                   <td class="border px-6 py-4">{{$transaction->user->name}}</td>
+                   <td class="border px-6 py-4">
+                    @if($transaction->food)   
+                    {{$transaction->food->name}}
+                    @endif
+                    </td>
+                   <td class="border px-6 py-4">    
+                    @if($transaction->user)   
+                    {{$transaction->user->name}}
+                    @endif
+                    </td>
                    <td class="border px-6 py-4">{{$transaction->quantity}}</td>
                    <td class="border px-6 py-4">{{$transaction->total}}</td>
                    <td class="border px-6 py-4">{{$transaction->status}}</td>
